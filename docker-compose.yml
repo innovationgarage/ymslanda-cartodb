@@ -3,10 +3,16 @@ services:
   cartodb:
     image: ymslanda.innovationgarage.tech:5000/cartodb
     volumes:
-      - /ymslanda/cartodb/postgresql:/var/lib/postgresql
+      # - /ymslanda/cartodb/postgresql:/var/lib/postgresql
+      - /ymslanda/cartodb/postgresql:/base_backup
+      - /ymslanda/cartodb/archive:/wal_archive
     ports:
       - "8083:80"
       - "5432:5432"
     environment:
       CARTO_HOSTNAME: cartodb.ymslanda.innovationgarage.tech
     hostname: cartodb.ymslanda.innovationgarage.tech
+    deploy:
+      placement:
+        constraints:
+          - node.labels.type==desktop
